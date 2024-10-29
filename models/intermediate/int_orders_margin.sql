@@ -1,10 +1,13 @@
 WITH sales AS (
     SELECT
-        *
+        orders_id, 
+        purchase_cost, 
+        margin
     FROM {{ ref('int_sales_margin') }}  -- Reference to the sales staging model
 )
 
 SELECT
-    *,
-    '2021-09-30' AS fixed_date  -- Adding a new column with the fixed date
-FROm sales
+    date_date,
+    revenue,
+    quantity
+FROM {{ ref('stg_gz_raw_data__raw_gz_sales' )}} 
