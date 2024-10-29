@@ -2,7 +2,7 @@ WITH sales AS (
     SELECT
         orders_id,
         margin
-    FROM {{ ref('int_sales_margin') }} 
+    FROM {{ ref('int_orders_margin') }} 
 ),
 
 ship AS (
