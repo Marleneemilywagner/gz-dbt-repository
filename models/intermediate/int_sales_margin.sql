@@ -1,14 +1,17 @@
   -- int_sales_margin.sql
-
-  SELECT
-      products_id,
-      date_date,
-      orders_id,
-      revenue,
-      quantity,
-      purchase_price,
-      ROUND(s.quantity*p.purchase_price,2) AS purchase_cost,
-      ROUND(s.revenue - s.quantity*p.purchase_price, 2) AS margin
-  FROM {{ref("stg_gz_raw_data__raw_gz_sales")}} s
-  LEFT JOIN {{ref("stg_gz_raw_data__raw_gz_product")}} p
-      USING (products_id)
+WITH join_sq AS (
+    SELECT
+    *,
+    ROUND((quantity * purchase_price), 2) as purchase_cost
+    FROM
+    {{ref("stg_gz_raw_data__raw_gz_sales")}}
+    LEFT JOIN
+    {{ref("stg_gz_raw_data__raw_gz_product")}}
+    USING (products_id)
+)
+SELECT
+    *,
+    ROUND((revenue - purchase_cost), 2) as margin,
+    {{margin_percent('revenue', 'purchase_cost')}} as margin_percent
+FROM join_sq
+ 
