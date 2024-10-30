@@ -5,7 +5,8 @@ WITH sales AS (
         orders_id,
         products_id,
         quantity,
-        revenue
+        revenue, 
+        date_date
     FROM {{ ref('stg_gz_raw_data__raw_gz_sales') }}  -- Reference to the sales staging model
 ),
 
@@ -21,6 +22,7 @@ SELECT
     s.products_id,
     s.quantity,
     s.revenue,
+    s.date_date,
     p.purchase_price,
     (p.purchase_price * s.quantity) AS purchase_cost,  -- Calculate purchase cost
     (s.revenue - (p.purchase_price * s.quantity)) AS margin  -- Calculate margin

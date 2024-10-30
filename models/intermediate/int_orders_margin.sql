@@ -9,5 +9,7 @@ WITH sales AS (
 SELECT
     date_date,
     revenue,
-    quantity
+    quantity,
+    orders_id,
+    margin
 FROM {{ ref('stg_gz_raw_data__raw_gz_sales' )}} 
